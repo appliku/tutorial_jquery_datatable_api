@@ -1,0 +1,65 @@
+{% extends "datatable/base.html" %}
+
+{% block content %}
+    <table id="myStaticDatatable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ORDER</th>
+            <th>CLIENT</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        let data_url = '{% url "datatable_data" %}';
+        $(document).ready(function () {
+            $('#myStaticDatatable').DataTable({
+                'order': [[1, 'desc']],
+                'processing': false,
+                'serverSide': true,
+                'ajax': {
+                    url: data_url,
+                    dataSrc: 'data'
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        orderable: true
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return `${row.name}<br>${row.address} ${row.state} ${row.zip_code}`;
+                        },
+                        orderable: true
+                    },
+                    {
+                        data:null,
+                        render: function (data, type, row){
+                            return `${row.client_name}<br/>${row.client_phone}<br/>${row.client_email}`
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: 'amount',
+                        orderable: false
+                    },
+                    {
+                        data: 'status',
+                        orderable: false
+                    }
+
+                ]
+            });
+        });
+    </script>
+{% endblock %}

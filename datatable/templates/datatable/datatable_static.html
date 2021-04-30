@@ -1,0 +1,43 @@
+{% extends "datatable/base.html" %}
+
+{% block content %}
+    <table id="myStaticDatatable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ORDER</th>
+            <th>CLIENT</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in order_list %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>
+                    {{ order.name }}
+                    <br>
+                    {{ order.address }} {{ order.state }} {{ order.zip_code }}
+                </td>
+                <td>
+                    {{ order.client.name }}
+                    <br>{{ order.client.phone }}
+                    {{ order.client.email }}
+                </td>
+                <td>{{ order.amount }}</td>
+                <td>{{ order.get_status_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            $('#myStaticDatatable').DataTable();
+        });
+    </script>
+{% endblock %}
